@@ -3,6 +3,8 @@
 このドキュメントは、**Macを使う初心者スタッフが、ゼロからこのシステムを再現構築できるまで** の手順書です。
 **Claude Codeが入った後は、面倒な作業は全てClaude Codeにやらせる** 前提で書かれています。
 
+> Windowsを使う方は別ガイドを参照してください：[claude-code-setup-guide-windows](https://github.com/KEEEN01/claude-code-setup-guide-windows)
+
 ---
 
 ## このシステムの目的
