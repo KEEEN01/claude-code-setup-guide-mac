@@ -1,15 +1,29 @@
-# AI経営管理システム セットアップ手順書（Mac・初心者向け・完全版）
+# 株式会社Shift AI経営管理システム セットアップ手順書（Mac・初心者向け・完全版）
 
-このドキュメントは、**Macを使う初心者スタッフが、ゼロからこのシステムを再現構築できるまで** の手順書です。
+このドキュメントは、**株式会社Shift のMacを使うスタッフが、ゼロからこのシステムを再現構築できるまで** の手順書です。
 **Claude Codeが入った後は、面倒な作業は全てClaude Codeにやらせる** 前提で書かれています。
 
-> Windowsを使う方は別ガイドを参照してください：[claude-code-setup-guide-windows](https://github.com/KEEEN01/claude-code-setup-guide-windows)
+## 関連ガイド（OS別／法人別）
+
+| 対象 | URL |
+|------|-----|
+| Shift Windowsスタッフ用 | [claude-code-setup-guide-windows](https://github.com/KEEEN01/claude-code-setup-guide-windows) |
+| 一般社団法人Switch 社員用（別法人・Mac版） | [claude-code-setup-guide-switch](https://github.com/KEEEN01/claude-code-setup-guide-switch) |
+| 外部パートナー（Switch案件用） | [claude-code-switch-external-partner](https://github.com/KEEEN01/claude-code-switch-external-partner) |
+
+> ⚠️ **株式会社Shift（メイン会社）** と **一般社団法人Switch（別法人）** は混同しやすいため注意。
+> 本ガイドは **Shift社員** 向けです。Switch側だけの業務をする社員/外部スタッフは上記の専用ガイドを参照してください。
 
 ---
 
 ## このシステムの目的
 経営者の右腕（COO）として **Claude Code** を運用するための業務基盤。
-5事業を横断的に管理し、属人化していた業務をスキル化して、**スタッフ全員が使える共通資産** にすることが目的です。
+**株式会社Shift の4事業＋関連2法人（Greeth／Switch）** を横断的に管理し、属人化していた業務をスキル化して、**Shift全スタッフが使える共通資産** にすることが目的です。
+
+### 3法人構造（経営者が全法人の代表または代表兼任）
+- **株式会社Shift**（メイン会社） — 本ガイドの主対象。4事業を運営
+- **Greeth株式会社**（別法人） — 木材加工・おがこ提供
+- **一般社団法人Switch**（別法人） — 自治体委託・Switch Terrace・教育事業
 
 ---
 
@@ -555,12 +569,18 @@ GitHubの ai-coo-system リポジトリに、以下のラベル体系を一括�
 gh label create コマンドを使ってください。
 
 domain（事業ドメイン）:
-- domain:creative (色:0E8A16) クリエイティブ事業
-- domain:furusato (色:FBCA04) ふるさと納税運営
-- domain:kobutsu (色:D93F0B) 古物買取
-- domain:fureru (色:1D76DB) fureruメディア
-- domain:greeth (色:5319E7) Greeth（別法人）
-- domain:company (色:C2E0C6) 全社共通
+- domain:creative  (色:0E8A16) クリエイティブ事業
+- domain:furusato  (色:FBCA04) ふるさと納税運営
+- domain:kobutsu   (色:D93F0B) 古物買取
+- domain:fureru    (色:1D76DB) fureruメディア
+- domain:greeth    (色:5319E7) Greeth（別法人）
+- domain:switch    (色:BFD4F2) Switch（別法人）
+- domain:company   (色:C2E0C6) 全社共通
+
+entity（法人タグ）:
+- entity:shift   (色:0052CC) 株式会社Shift（メイン）
+- entity:greeth  (色:5319E7) Greeth株式会社（別法人）
+- entity:switch  (色:BFD4F2) 一般社団法人Switch（別法人）
 
 type（タスク種別）:
 - type:task (色:C5DEF5) 実行タスク
@@ -672,7 +692,12 @@ Claude Codeアプリの入力欄にコピペ：
 06_fureru/finance/       事業4：fureru - 経理
 07_greeth/strategy/      事業5：Greeth - 戦略
 07_greeth/finance/       事業5：Greeth - 経理
-08_learning/             インプット・記事クリップ
+08_switch/strategy/      事業6：Switch - 戦略（別法人）
+08_switch/finance/       事業6：Switch - 経理（別法人）
+08_switch/jichitai_itaku/ Switch自治体委託（田村市移住定住など）
+08_switch/satellite_office/ Switch Terrace（廃校サテライト）
+08_switch/education/     Switch教育事業
+10_learning/             インプット・記事クリップ
 output/                  AI出力
 .claude/commands/        スキル定義
 
@@ -694,6 +719,9 @@ output/                  AI出力
 04_furusato/*/
 05_kobutsu/inventory/
 05_kobutsu/customers/
+08_switch/jichitai_itaku/*/contracts/
+08_switch/satellite_office/bookings/
+08_switch/education/students/
 
 # 認証ファイル
 *.env
@@ -931,15 +959,19 @@ credentials.json
 
 # PART 8: 運用ルール（読むだけ / 15分）
 
-## 8-1. 5事業の概要（参考：再現時は自分の事業構成に置き換え）
+## 8-1. Shift＋関連法人の6事業／3法人構造
 
-| # | 事業 | 内容 |
-|---|------|------|
-| 1 | クリエイティブ | ブランディング・プロモーション企画・制作（紙/Web/動画） |
-| 2 | ふるさと納税運営受託 | 自治体向け運営（2自治体） |
-| 3 | 古物買取 | 店舗を構えての買取業務 |
-| 4 | fureru | 福島県中地域・子育てWebメディア＋コンテンツ |
-| 5 | Greeth（別法人） | 木材加工→おがこ提供（酵素風呂事業者向け） |
+| # | 事業 | 法人 | 内容 |
+|---|------|------|------|
+| 1 | クリエイティブ | Shift | ブランディング・プロモーション企画・制作（紙/Web/動画） |
+| 2 | ふるさと納税運営受託 | Shift | 自治体向け運営（2自治体） |
+| 3 | 古物買取 | Shift | 店舗を構えての買取業務 |
+| 4 | fureru | Shift | 福島県中地域・子育てWebメディア＋コンテンツ |
+| 5 | Greeth | 別法人 | 木材加工→おがこ提供（酵素風呂事業者向け） |
+| 6 | Switch | 別法人 | 自治体委託（田村市移住定住など）／Switch Terrace／教育事業 |
+
+> Switch関連の業務に専従するスタッフは、Switch専用ガイドを併用してください：
+> [claude-code-setup-guide-switch](https://github.com/KEEEN01/claude-code-setup-guide-switch)
 
 ## 8-2. トリガーワード一覧（覚えなくていい、CLAUDE.mdに書いてある）
 
@@ -971,7 +1003,8 @@ credentials.json
 | クライアント案件詳細 | Google Drive ✅／GitHub ❌ |
 | 自治体寄付者データ | Google Drive ✅／GitHub ❌ |
 | 買取顧客情報 | Google Drive ✅／GitHub ❌ |
-| 経理情報 | Google Drive ✅／GitHub ❌ |
+| 経理情報（Shift／Greeth／Switch すべて） | Google Drive ✅／GitHub ❌ |
+| Switch自治体契約書・受講者・Terrace利用者情報 | Google Drive ✅／GitHub ❌ |
 | APIキー・OAuth | ローカル＋.gitignore必須 |
 
 ## PART 8 チェックリスト
@@ -1448,7 +1481,32 @@ credentials.json
 
 ---
 
-## 10-6. 部下→管理者へのエスカレーション基準
+## 10-6. Switch（別法人）関連の業務がある人へ
+
+Switch は別法人ですが、経営者が代表を兼任しているため、Shift社員からSwitch関連の業務を依頼される場合があります。
+
+### 簡易対応（このガイドの範囲内）
+```
+Switch関連の[業務内容]をドラフトしてください。
+- 関連事業：自治体委託 / Switch Terrace / 教育 のどれか
+- 保存先：08_switch/[該当サブフォルダ]/
+- トーン：自治体宛は堅め、Terrace集客は温かみ、教育は受講者目線
+- 機密情報（自治体担当者名・利用者・受講者）は匿名化
+```
+
+### 本格的にSwitch業務を担当する場合
+Switch専用ガイドを併用してください。Switch特化スキル（`/jichitai-proposal` `/monthly-report` `/terrace-booking-report` `/education-program-draft`）の導入手順や、3事業別の詳細プロンプト辞典が用意されています。
+
+→ [claude-code-setup-guide-switch（Switch社員向け）](https://github.com/KEEEN01/claude-code-setup-guide-switch)
+
+### Switch関連業務で守ること
+- Shift と Switch の **資金・契約・人事は厳密に分離**（同じClaude Codeで作業しても、ファイルは `08_switch/` に隔離）
+- GitHub Issueには `entity:switch` ラベルを必ず付ける
+- 自治体・利用者・受講者の個人情報は **匿名化**
+
+---
+
+## 10-7. 部下→管理者へのエスカレーション基準
 
 **以下のケースは Claude Code に頼まず、管理者（窪田）に直接相談してください。**
 
@@ -1466,7 +1524,7 @@ credentials.json
 
 ---
 
-## 10-7. 自分専用の頼み方を増やしていく
+## 10-8. 自分専用の頼み方を増やしていく
 
 毎週やってる作業を見つけたら、Claude Codeに以下を頼んで「自分専用テンプレ」を作る：
 
