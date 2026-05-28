@@ -201,7 +201,7 @@ npm --version
 |---------|----|
 | 自社・関連事業 | 自社名、Greeth、fureru |
 | クライアント名 | 取引先の正式名称 |
-| 専門用語 | ふるさと納税、おがこ、買取査定 |
+| 専門用語 | ふるさと納税、おがこ、リサイクル査定 |
 | よく使う英単語 | Claude、MCP、CLAUDE.md、Sonnet |
 
 ## 1-5. 注意事項
@@ -571,7 +571,7 @@ gh label create コマンドを使ってください。
 domain（事業ドメイン）:
 - domain:creative  (色:0E8A16) クリエイティブ事業
 - domain:furusato  (色:FBCA04) ふるさと納税運営
-- domain:kobutsu   (色:D93F0B) 古物買取
+- domain:recycle   (色:D93F0B) リサイクル
 - domain:fureru    (色:1D76DB) fureruメディア
 - domain:greeth    (色:5319E7) Greeth（別法人）
 - domain:switch    (色:BFD4F2) Switch（別法人）
@@ -684,10 +684,10 @@ Claude Codeアプリの入力欄にコピペ：
 03_creative/clients/     事業1：クライアント情報
 04_furusato/strategy/    事業2：ふるさと納税 - 戦略
 04_furusato/finance/     事業2：ふるさと納税 - 経理
-05_kobutsu/strategy/     事業3：古物買取 - 戦略
-05_kobutsu/finance/      事業3：古物買取 - 経理
-05_kobutsu/inventory/    事業3：在庫
-05_kobutsu/customers/    事業3：顧客情報
+05_recycle/strategy/     事業3：リサイクル - 戦略
+05_recycle/finance/      事業3：リサイクル - 経理
+05_recycle/inventory/    事業3：在庫
+05_recycle/customers/    事業3：顧客情報
 06_fureru/strategy/      事業4：fureru - 戦略
 06_fureru/finance/       事業4：fureru - 経理
 07_greeth/strategy/      事業5：Greeth - 戦略
@@ -717,8 +717,8 @@ output/                  AI出力
 **/finance/
 03_creative/clients/
 04_furusato/*/
-05_kobutsu/inventory/
-05_kobutsu/customers/
+05_recycle/inventory/
+05_recycle/customers/
 08_switch/jichitai_itaku/*/contracts/
 08_switch/satellite_office/bookings/
 08_switch/education/students/
@@ -965,7 +965,7 @@ credentials.json
 |---|------|------|------|
 | 1 | クリエイティブ | Shift | ブランディング・プロモーション企画・制作（紙/Web/動画） |
 | 2 | ふるさと納税運営受託 | Shift | 自治体向け運営（2自治体） |
-| 3 | 古物買取 | Shift | 店舗を構えての買取業務 |
+| 3 | リサイクル | Shift | 店舗運営によるリサイクル業務 |
 | 4 | fureru | Shift | 福島県中地域・子育てWebメディア＋コンテンツ |
 | 5 | Greeth | 別法人 | 木材加工→おがこ提供（酵素風呂事業者向け） |
 | 6 | Switch | 別法人 | 自治体委託（田村市移住定住など）／Switch Terrace／教育事業 |
@@ -1002,7 +1002,7 @@ credentials.json
 |------|-----------|
 | クライアント案件詳細 | Google Drive ✅／GitHub ❌ |
 | 自治体寄付者データ | Google Drive ✅／GitHub ❌ |
-| 買取顧客情報 | Google Drive ✅／GitHub ❌ |
+| リサイクル顧客情報 | Google Drive ✅／GitHub ❌ |
 | 経理情報（Shift／Greeth／Switch すべて） | Google Drive ✅／GitHub ❌ |
 | Switch自治体契約書・受講者・Terrace利用者情報 | Google Drive ✅／GitHub ❌ |
 | APIキー・OAuth | ローカル＋.gitignore必須 |
@@ -1320,11 +1320,11 @@ credentials.json
 
 ---
 
-## 10-3. 古物買取事業部の人へ
+## 10-3. リサイクル事業部の人へ
 
 ### 査定・見積もり
 ```
-下記の品物の買取査定見積もりドラフトを作って：
+下記の品物のリサイクル査定見積もりドラフトを作って：
 - 品目：[品目名]
 - 状態：[要点]
 - 数量：[数]
@@ -1334,7 +1334,7 @@ credentials.json
 
 ### 在庫管理
 ```
-05_kobutsu/inventory/ の在庫一覧から、
+05_recycle/inventory/ の在庫一覧から、
 3ヶ月以上動いていない品物をリストアップして。
 売却促進策も併せて提案して
 ```
@@ -1350,7 +1350,7 @@ credentials.json
 ### 相場リサーチ
 ```
 [品目]の最近のフリマアプリ／オークション相場をWeb検索で調べて、
-買取適正価格レンジを提案して。
+適正査定価格レンジを提案して。
 利益率は[％]を確保したい
 ```
 
